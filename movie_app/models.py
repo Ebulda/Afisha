@@ -6,6 +6,11 @@ class Director(models.Model):
     def __str__(self):
         return self.name
 
+    def movies_count(self):
+        return  self.movies.count()
+
+
+
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
@@ -17,8 +22,15 @@ class Movie(models.Model):
         return self.title
 
 
+
+
+
+STAR_CHOICES = ((i, '*' * i) for i in range(6))
+
+
 class Review(models.Model):
     text = models.TextField()
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    stars = models.IntegerField(choices=STAR_CHOICES,default=1)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='review')
 
 
