@@ -40,7 +40,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'movie_app',
 'query_counter',
+    'rest_framework.authtoken'
 ]
+
+REST_FRAMEWORK = {
+        'DEFAULT_AUTENTICATION_CLASSES': [
+            'rest_framework.autentication.TokenAutentication'
+        ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
