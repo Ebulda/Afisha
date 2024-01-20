@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.exceptions import ValidationError
+from .models import UserConfirmation
 
 
 class AuthorizeValidateSerializer(serializers.Serializer):
@@ -19,4 +20,7 @@ class RegisterValidateSerializer(serializers.Serializer):
         raise ValidationError('User already exist')
 
 
-
+class UserConfirmationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserConfirmation
+        fields = ['code']

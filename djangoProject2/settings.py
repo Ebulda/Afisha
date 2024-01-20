@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'movie_app',
 'query_counter',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'users'
 ]
 
 REST_FRAMEWORK = {
@@ -149,3 +150,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = 'su1tanakunova@yandex.ru'
+EMAIL_HOST_PASSWORD = 'kteaqktwluogxzlx'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+
