@@ -8,9 +8,10 @@ class AuthorizeValidateSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 
-class RegisterValidateSerializer(serializers.Serializer):
+class RegisterValidateSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
     password = serializers.CharField()
+    email =serializers.EmailField()
 
     def validate_username(self, username):
         try:
@@ -18,6 +19,10 @@ class RegisterValidateSerializer(serializers.Serializer):
         except User.DoesNotExist:
             return username
         raise ValidationError('User already exist')
+
+    class Meta:
+        model = User
+        fields = ['username', 'password','email']
 
 
 class UserConfirmationSerializer(serializers.ModelSerializer):

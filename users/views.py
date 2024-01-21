@@ -8,19 +8,39 @@ from rest_framework.authtoken.models import Token
 from .models import UserConfirmation
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from django.core.mail import send_mail
+from django.conf import settings
 import random
 
 
 @api_view(['POST'])
 def register_api_view(request):
     serializer = RegisterValidateSerializer(data=request.data)
-    serializer.is_valid()
-    username = serializer.validated_data.get('username')
-    password = serializer.validated_data.get('password')
-    user =User.objects.create_user(username=username, password=password,is_active=False)
-    confirmation = UserConfirmation.objects.create(user=user, code=random.randint(100000, 999999))
-    return Response({'status': 'User registered', 'code': confirmation.code, 'data': serializer.data},
+    serializer.is_valid(raise_exception=True)
+    user =User.objects.create_user(**serializer.validated_data,is_active=False)
+
+    code = random.randint(100000, 999999)
+    from_email = settings.DEFAULT_FROM_EMAIL
+    email = user.email
+
+    # Проверка, определена ли переменная email
+    if email:
+        # Теперь переменная email определена и может быть использована
+        send_mail(
+            subject='Here is your activation code',
+            message=str(code),
+            from_email=from_email,
+            recipient_list=[email],
+            fail_silently=False,
+        )
+    else:
+        # Обработка случая, когда email не определен
+        print("Email is not defined.")
+
+    confirmation = UserConfirmation.objects.create(user=user, code=code)
+    return Response({'status': 'User registered',  'data': serializer.data},
                     status=status.HTTP_201_CREATED)
+
 
 
 @api_view(['POST'])
