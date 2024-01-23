@@ -7,3 +7,5 @@ pyvenv.cfg
 /.idea
 /templates
 /my_venv
+.env
+.gitignore

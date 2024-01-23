@@ -23,9 +23,7 @@ def register_api_view(request):
     from_email = settings.DEFAULT_FROM_EMAIL
     email = user.email
 
-    # Проверка, определена ли переменная email
     if email:
-        # Теперь переменная email определена и может быть использована
         send_mail(
             subject='Here is your activation code',
             message=str(code),
@@ -34,7 +32,6 @@ def register_api_view(request):
             fail_silently=False,
         )
     else:
-        # Обработка случая, когда email не определен
         print("Email is not defined.")
 
     confirmation = UserConfirmation.objects.create(user=user, code=code)
